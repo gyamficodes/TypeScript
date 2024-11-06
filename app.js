@@ -156,5 +156,20 @@ const Locations = {
     x: 5,
     y: 10
 };
-// Required
-// Required changes all the properties in an object to be required.
+const laptop = {
+    Name: "Lenovo",
+    Gen: 11,
+    Ssd: 512
+};
+console.log(laptop);
+// Record
+// Record is a shortcut to defining an object type with a specific key type and value type.
+const nameAge = {
+    name: "John",
+    age: 10,
+};
+const Student1 = {
+    name: 'John',
+    age: 23
+};
+console.log(Student1);

@@ -272,5 +272,46 @@ const Locations: Partial<Point> = {
 // Required
 // Required changes all the properties in an object to be required.
 
+interface Laptops {
+    Name: string,
+    Gen: number,
+    Ssd: number
+}
+
+
+const laptop: Required<Laptops> = {
+    Name: "Lenovo",
+    Gen: 11,
+    Ssd:512
+}
+
+console.log(laptop);
+
+
+// Record
+// Record is a shortcut to defining an object type with a specific key type and value type.
+
+const nameAge: Record<string, string | number> = {
+    name: "John",
+    age: 10,
+};
+
+
+// Omit
+// Omit removes keys from an object type.
+ interface Student {
+    name: string,
+    age: number,
+    school:string
+ }
+
+
+ const Student1: Omit<Student, 'school'> = {
+    name: 'John',
+    age: 23
+ }
+
+ console.log(Student1);
+
 
 
