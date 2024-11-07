@@ -315,3 +315,41 @@ const nameAge: Record<string, string | number> = {
 
 
 
+//  Pick
+// Pick removes all but the specified keys from an object type.
+
+  interface Water{
+    verna:string,
+    oa:string,
+    voltic:string
+  }
+
+const water: Pick<Water, 'verna'> = {
+    verna: 'verna',
+}
+
+
+
+// Exclude
+// Exclude removes types from a union.
+ type primitives = string | number | boolean;
+
+ const valueL: Exclude<primitives, string> = true
+
+
+
+//  Readonly
+// Readonly is used to create a new type where all properties are readonly, meaning they cannot be modified once assigned a value.
+
+
+interface Person {
+    name: string;
+    age: number;
+  }
+
+
+  const person3: Readonly<Person> = {
+    name: "Dylan",
+    age: 35,
+  };
+ // person3.name = 'Israel';  // prog.ts(11,8): error TS2540: Cannot assign to 'name' because it is a read-only property.
