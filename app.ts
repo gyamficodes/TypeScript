@@ -85,7 +85,7 @@ const Workers: { Name: string; id?: number } = {
 
 // Type Aliases can be used for primitives like string or more complex types such as objects and arrays:
 
-// ExampleGet your own TypeScript Server
+// Example Get your own TypeScript Server
 type CarYear = number;
 type CarType = string;
 type CarModel = string;
@@ -329,6 +329,10 @@ const water: Pick<Water, 'verna'> = {
 }
 
 
+const water2: Pick<Water, 'oa'> = {
+    oa:'OA'
+} 
+
 
 // Exclude
 // Exclude removes types from a union.
@@ -352,4 +356,13 @@ interface Person {
     name: "Dylan",
     age: 35,
   };
+
+
  // person3.name = 'Israel';  // prog.ts(11,8): error TS2540: Cannot assign to 'name' because it is a read-only property.
+
+
+
+
+
+// interface history
+
