@@ -184,5 +184,9 @@ const person3 = {
     name: "Dylan",
     age: 35,
 };
-// person3.name = 'Israel';  // prog.ts(11,8): error TS2540: Cannot assign to 'name' because it is a read-only property.
-// interface history
+const WirelessMouse = {
+    name: 'Asus',
+    amount: 50,
+    year: 2022
+};
+const Chair = 'wooden chair';

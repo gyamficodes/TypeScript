@@ -365,4 +365,30 @@ interface Person {
 
 
 // interface history
+  interface Mouse{
+    name: string,
+    amount: number
+  }
+
+  
+  interface Wirless  extends Mouse {
+    year:number,
+  }
+ 
+
+  const WirelessMouse: Wirless = {
+     name:'Asus',
+     amount:50,
+     year:2022
+  }
+
+  const Chair: string = 'wooden chair';
+
+
+  interface   data {
+    name: string,
+    year: number,
+    expire:boolean
+  }
+ 
 
