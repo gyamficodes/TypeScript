@@ -391,4 +391,14 @@ interface Person {
     expire:boolean
   }
  
+interface Cardata extends data {
+   country : string,
+}
 
+
+const Cybertrucks : Cardata = {
+   country: "USA",
+   name: "Cybertruk",
+   expire: true,
+   year: 2024
+}
