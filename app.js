@@ -190,3 +190,9 @@ const WirelessMouse = {
     year: 2022
 };
 const Chair = 'wooden chair';
+const Cybertrucks = {
+    country: "USA",
+    name: "Cybertruk",
+    expire: true,
+    year: 2024
+};

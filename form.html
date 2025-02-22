@@ -1,0 +1,148 @@
+<form id="form" action="https://api.web3forms.com/submit" method="POST">
+   
+    <input type="hidden" name="access_key" value="@Model.Value("keys")">
+   <div class="grid lg:grid-cols-2 gap-4 w-full mb-4">
+       <div>
+           <input  type="text" placeholder="Name" id="name" name="name" required class="w-full h-[60px] bg-fennel-white !pl-2 !focus:ring-0 !focus:outline-none placeholder:text-aber-paragraph rounded-sm text-black !border-[1px] !outline-none !border-aber-white">
+           <div id="nameWarning" class="warning text-[red]"></div>
+       </div>
+       
+       <div>
+           <input type="email" placeholder="Email" id="email" name="email" required class="w-full h-[60px] bg-fennel-white !pl-2 !focus:ring-0 !focus:outline-none placeholder:text-aber-paragraph rounded-sm text-black !border-[1px] !outline-none !border-aber-white">
+           <div id="emailWarning" class="warning text-[red]"></div>
+       </div>
+   </div>
+
+   <div class="grid lg:grid-cols-2 gap-4 w-full mb-4">
+       <div>
+           <input  type="text" placeholder="Subject" id="subject" name="subject" required class="w-full h-[60px] bg-fennel-white !pl-2 !focus:ring-0 !focus:outline-none placeholder:text-aber-paragraph rounded-sm text-black !border-[1px] !outline-none !border-aber-white">
+           <div id="subjectWarning" class="warning text-[red]"></div>
+       </div>
+       
+       <div>
+           <input  type="text" id="phone" name="phone" placeholder="+233... or 0..." class="w-full h-[60px] bg-fennel-white !pl-2 !focus:ring-0 !focus:outline-none placeholder:text-aber-paragraph rounded-sm text-black !border-[1px] !outline-none !border-aber-white">
+           <div id="phoneWarning" class="warning text-[red]"></div>
+       </div>
+   </div>
+   
+   <textarea  placeholder="Write your message..." id="message" name="message" rows="5" class="w-full !p-3 !focus:ring-0 !focus:outline-none placeholder:text-aber-paragraph rounded-sm text-black !border-[1px] !outline-none !border-fennel-white" required></textarea>
+   <div id="messageWarning" class="warning text-[red]"></div>
+   
+   <button type="submit" class="group w-full md:w-[200px] h-[50px] border-[2px] cursor-pointer mt-5 rounded-[1.5rem] border-aber-primary relative z-[1] flex items-center text-aber-primary justify-center capitalize font-[500] before:content-[''] before:left-0 before:right-0 before:bottom-0 before:absolute before:z-[-1] before:w-[0%] hover:before:w-full before:h-[100%] before:bg-aber-primary overflow-hidden before:transition-all duration-300 ease-in-out ">
+       <span class="group-hover:text-white">send message</span>
+   </button>
+   <div id="result" class="text-[green]"></div>
+   
+   <audio id="successSound" src="success.mp3"></audio>
+   <audio id="errorSound" src="error.mp3"></audio>
+</form>
+
+
+
+//script
+
+  
+const form = document.getElementById('form');
+const result = document.getElementById('result');
+const successSound = document.getElementById('successSound');
+const errorSound = document.getElementById('errorSound');
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent the default form submission
+
+    // Clear previous warnings
+    document.getElementById('nameWarning').textContent = '';
+    document.getElementById('emailWarning').textContent = '';
+    document.getElementById('subjectWarning').textContent = '';
+    document.getElementById('phoneWarning').textContent = '';
+    document.getElementById('messageWarning').textContent = '';
+    result.textContent = ''; // Clear previous result message
+
+    // Collect form data
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const subject = document.getElementById('subject').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    let isValid = true;
+
+    // Validation
+    if (!name) {
+        document.getElementById('nameWarning').textContent = 'Name is required.';
+        isValid = false;
+    }
+
+    if (!email || !validateEmail(email)) {
+        document.getElementById('emailWarning').textContent = 'Valid email is required.';
+        isValid = false;
+    }
+
+    if (!subject) {
+        document.getElementById('subjectWarning').textContent = 'Subject is required.';
+        isValid = false;
+    }
+
+    if (!phone || !validatePhone(phone)) {
+        document.getElementById('phoneWarning').textContent = 'Valid phone number is required.';
+        isValid = false;
+    }
+
+    if (!message) {
+        document.getElementById('messageWarning').textContent = 'Message is required.';
+        isValid = false;
+    }
+
+    if (isValid) {
+        result.textContent = "Please wait...";
+        successSound.play();
+
+        // Create a FormData object and send it with fetch
+        const formData = new FormData(form);
+        const object = Object.fromEntries(formData);
+        const json = JSON.stringify(object);
+
+        fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: json
+        })
+        .then(async (response) => {
+            const jsonResponse = await response.json();
+            if (response.ok) { 
+                result.textContent = jsonResponse.message || 'Form submitted successfully!';
+                form.reset(); // Reset the form fields after successful submission
+            } else {
+                console.error('Server responded with:', jsonResponse);
+                result.textContent = jsonResponse.message || 'Something went wrong!';
+                errorSound.play(); 
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+            result.textContent = 'Something went wrong!';
+            errorSound.play(); 
+        })
+        .finally(() => { 
+            setTimeout(() => {
+                result.style.display = "none"; 
+            }, 3000);
+        });
+    }
+});
+
+// Phone number validation for Ghana format
+function validatePhone(phone) {
+    const re = /^(\+233|0)[2-5]\d{8}$/; // Ghanaian phone number format
+    return re.test(phone);
+}
+
+// Email validation function
+function validateEmail(email) {
+    const re = /^[^\s]+[^\s]+\.[^\s]+$/;
+    return re.test(email);
+}
+  
